@@ -72,14 +72,14 @@ void translate(float Inches,int speed,int tolerance,bool correctTurn,float kp,fl
   RTD.setPosition(0,degrees);
   RFD.setPosition(0,degrees);
   RBD.setPosition(0,degrees);
-  double avgVal = ((LBD.position(degrees) + LFD.position(degrees) + RBD.position(degrees) + RFD.position(degrees) + LTD.position(degrees) + RTD.position(degrees))/6) * .42857143;
+  double avgVal = ((LBD.position(degrees) + LFD.position(degrees) + RBD.position(degrees) + RFD.position(degrees) + LTD.position(degrees) + RTD.position(degrees))/6) * .75; //last multiplier is gear ratio coefficient
   PidControl translatePID = PidControl(Inches,avgVal,kp,0,kd);
   double startAngle = Gyro_Position();
   while(true){
     double deltaTheta = Gyro_Position() - startAngle;
     if(!correctTurn)
       deltaTheta = 0;
-    avgVal = ((LBD.position(degrees) + LFD.position(degrees) + LTD.position(degrees) + RTD.position(degrees) + RBD.position(degrees) + RFD.position(degrees))/6) * .42857143;
+    avgVal = ((LBD.position(degrees) + LFD.position(degrees) + LTD.position(degrees) + RTD.position(degrees) + RBD.position(degrees) + RFD.position(degrees))/6) * .75;
     translatePID.calculate(getDistance(avgVal,2));
     
     setDrive(translatePID.Output() > speed? speed:translatePID.Output() -(deltaTheta * t_kp),translatePID.Output() > speed? speed:translatePID.Output() +(deltaTheta * t_kp));
