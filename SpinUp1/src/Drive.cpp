@@ -80,7 +80,7 @@ void translate(float Inches,int speed,int tolerance,bool correctTurn,float kp,fl
     if(!correctTurn)
       deltaTheta = 0;
     avgVal = ((LBD.position(degrees) + LFD.position(degrees) + LTD.position(degrees) + RTD.position(degrees) + RBD.position(degrees) + RFD.position(degrees))/6) * .75;
-    translatePID.calculate(getDistance(avgVal,2));
+    translatePID.calculate(getDistance(avgVal,1.375)); //Wheel ratio
     
     setDrive(translatePID.Output() > speed? speed:translatePID.Output() -(deltaTheta * t_kp),translatePID.Output() > speed? speed:translatePID.Output() +(deltaTheta * t_kp));
     if(within(translatePID.getError(),-tolerance,tolerance))
